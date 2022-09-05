@@ -42,10 +42,12 @@
   </div>
 @endsection
 @section('scriptsAfterJs')
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script>
     $(document).ready(function() {
       // 删除按钮点击事件
       $('.btn-del-address').click(function() {
+        console.log("店家了");
         // 获取按钮上 data-id 属性的值，也就是地址 ID
         var id = $(this).data('id');
         // 调用 sweetalert

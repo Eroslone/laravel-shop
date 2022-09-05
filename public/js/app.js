@@ -5335,14 +5335,13 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 __webpack_require__(/*! ./components/SelectDistrict */ "./resources/js/components/SelectDistrict.js");
 
-__webpack_require__(/*! ./components/UserAddressesCreateAndEdit */ "./resources/js/components/UserAddressesCreateAndEdit.js"); // 此处需在引入 Vue 之后引入
-
-
-__webpack_require__(/*! ./components/SelectDistrict */ "./resources/js/components/SelectDistrict.js");
+__webpack_require__(/*! ./components/UserAddressesCreateAndEdit */ "./resources/js/components/UserAddressesCreateAndEdit.js");
 
 var app = new Vue({
   el: '#app'
-});
+}); // 此处需在引入 Vue 之后引入
+
+__webpack_require__(/*! ./components/SelectDistrict */ "./resources/js/components/SelectDistrict.js");
 
 /***/ }),
 
