@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca48e0365b413c19fe3e88b72f690107",
+    "content-hash": "4f6264b0666192d80bb04e4b31f16791",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1364,6 +1364,62 @@
                 }
             ],
             "time": "2022-06-20T21:43:11+00:00"
+        },
+        {
+            "name": "jxlwqq/quill",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/quill.git",
+                "reference": "4db7853ca6ff22707d7263f45fcd86c2db7c1966"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/quill/zipball/4db7853ca6ff22707d7263f45fcd86c2db7c1966",
+                "reference": "4db7853ca6ff22707d7263f45fcd86c2db7c1966",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Jxlwqq\\Quill\\QuillServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jxlwqq\\Quill\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jxlwqq",
+                    "email": "jxlwqq@gmail.com"
+                }
+            ],
+            "description": "quill editor for laravel-admin",
+            "homepage": "https://github.com/jxlwqq/quill",
+            "keywords": [
+                "extension",
+                "laravel-admin"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel-admin-extensions/quill/issues",
+                "source": "https://github.com/laravel-admin-extensions/quill/tree/1.0.2"
+            },
+            "time": "2020-12-14T13:36:58+00:00"
         },
         {
             "name": "laravel-lang/lang",
