@@ -9,6 +9,8 @@ use App\Models\Order;
 use Carbon\Carbon;
 use App\Jobs\CloseOrder;
 use Illuminate\Http\Request;
+use App\Services\CartService;
+use App\Services\OrderService;
 
 class OrdersController extends Controller
 {
@@ -28,11 +30,11 @@ class OrdersController extends Controller
         $this->authorize('own', $order);
         return view('orders.show', ['order' => $order->load(['items.productSku', 'items.product'])]);
     }
-    public function store(OrderRequest $request)
+    /*public function store(OrderRequest $request, CartService $cartService, OrderService $orderService)
     {
         $user  = $request->user();
         // 开启一个数据库事务
-        $order = \DB::transaction(function () use ($user, $request) {
+        $order = \DB::transaction(function () use ($user, $request, $cartService) {
             $address = UserAddress::find($request->input('address_id'));
             // 更新此地址的最后使用时间
             $address->update(['last_used_at' => Carbon::now()]);
@@ -75,12 +77,19 @@ class OrdersController extends Controller
             $order->update(['total_amount' => $totalAmount]);
 
             // 将下单的商品从购物车中移除
-            $skuIds = collect($items)->pluck('sku_id');
-            $user->cartItems()->whereIn('product_sku_id', $skuIds)->delete();
+            $skuIds = collect($request->input('items'))->pluck('sku_id')->all();
+            $cartService->remove($skuIds);
 
             return $order;
         });
         $this->dispatch(new CloseOrder($order, config('app.order_ttl')));
         return $order;
+    }*/
+    public function store(OrderRequest $request, OrderService $orderService)
+    {
+        $user    = $request->user();
+        $address = UserAddress::find($request->input('address_id'));
+
+        return $orderService->store($user, $address, $request->input('remark'), $request->input('items'));
     }
 }
