@@ -1,7 +1,10 @@
+require('sweetalert');
 window._ = require('lodash');
 
 try {
     require('bootstrap');
+  // 加载 jQuery
+  window.$ = window.jQuery = require('jquery');
 } catch (e) {}
 
 /**
