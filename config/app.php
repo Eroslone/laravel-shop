@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'PRC',
 
     /*
     |--------------------------------------------------------------------------
@@ -187,7 +187,7 @@ return [
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
     */
-    'order_ttl' => 300,
+    'order_ttl' => 1800,
     'aliases' => [
 
         'App' => Illuminate\Support\Facades\App::class,
