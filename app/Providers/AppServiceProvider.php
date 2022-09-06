@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
             // 判断当前项目运行环境是否为线上环境
             if (app()->environment() !== 'production') {
                 $config['mode']         = 'dev';
+                $config['notify_url'] = route('payment.alipay.notify');
+                $config['return_url'] = route('payment.alipay.return');
                 $config['log']['level'] = Logger::DEBUG;
             } else {
                 $config['log']['level'] = Logger::WARNING;
