@@ -184,6 +184,28 @@
               })
           });
       });
+
+      // 退款按钮点击事件
+      $('#btn-apply-refund').click(function () {
+        swal({
+          text: '请输入退款理由',
+          content: "input",
+        }).then(function (input) {
+          // 当用户点击 swal 弹出框上的按钮时触发这个函数
+          if(!input) {
+            swal('退款理由不可空', '', 'error');
+            return;
+          }
+          // 请求退款接口
+          axios.post('{{ route('orders.apply_refund', [$order->id]) }}', {reason: input})
+            .then(function () {
+              swal('申请退款成功', '', 'success').then(function () {
+                // 用户点击弹框上按钮时重新加载页面
+                location.reload();
+              });
+            });
+        });
+      });
     });
   </script>
 @endsection
