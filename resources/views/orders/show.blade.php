@@ -139,21 +139,7 @@
 @section('scriptsAfterJs')
   <script>
     $(document).ready(function() {
-      // 微信支付按钮事件
-      $('#btn-wechat').click(function() {
-        swal({
-          // content 参数可以是一个 DOM 元素，这里我们用 jQuery 动态生成一个 img 标签，并通过 [0] 的方式获取到 DOM 元素
-          content: $('<img src="{{ route('payment.wechat', ['order' => $order->id]) }}" />')[0],
-          // buttons 参数可以设置按钮显示的文案
-          buttons: ['关闭', '已完成付款'],
-        })
-          .then(function(result) {
-            // 如果用户点击了 已完成付款 按钮，则重新加载页面
-            if (result) {
-              location.reload();
-            }
-          })
-      });
+
       // 确认收货按钮点击事件
       $('#btn-receive').click(function() {
         // 弹出确认框
