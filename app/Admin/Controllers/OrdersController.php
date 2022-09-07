@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Exceptions\InvalidRequestException;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
+
 class OrdersController extends AdminController
 {
     use ValidatesRequests;
@@ -85,4 +86,5 @@ class OrdersController extends AdminController
         // 返回上一页
         return redirect()->back();
     }
+
 }
