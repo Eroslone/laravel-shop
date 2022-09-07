@@ -8,6 +8,7 @@ Route::group([
     'prefix'        => config('admin.route.prefix'),
     'namespace'     => config('admin.route.namespace'),
     'middleware'    => config('admin.route.middleware'),
+    'as'            => config('admin.route.prefix') . '.',
 ], function (Router $router) {
     $router->get('/', 'HomeController@index');
     $router->get('users', 'UsersController@index');
@@ -16,5 +17,7 @@ Route::group([
     $router->post('products', 'ProductsController@store');
     $router->get('products/{id}/edit', 'ProductsController@edit');
     $router->put('products/{id}', 'ProductsController@update');
+    $router->get('orders/{order}', 'OrdersController@show')->name('orders.show');
     $router->get('orders', 'OrdersController@index')->name('orders.index');
+
 });
