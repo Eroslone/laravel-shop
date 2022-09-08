@@ -11,6 +11,7 @@
             <div class="form-row">
               <div class="col-md-9">
                 <div class="form-row">
+
                   <!-- 面包屑开始 -->
                   <div class="col-auto category-breadcrumb">
                     <!-- 添加一个名为 全部 的链接，直接跳转到商品列表页 -->
@@ -30,6 +31,7 @@
                       <!-- 当前类目的 ID，当用户调整排序方式时，可以保证 category_id 参数不丢失 -->
                       <input type="hidden" name="category_id" value="{{ $category->id }}">
                     @endif
+
                   </div>
                   <!-- 面包屑结束 -->
                   <div class="col-auto"><input type="text" class="form-control form-control-sm" name="search" placeholder="搜索"></div>
