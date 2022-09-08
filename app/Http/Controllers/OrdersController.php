@@ -2,22 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\InvalidRequestException;
 use App\Http\Requests\OrderRequest;
-use App\Models\ProductSku;
 use App\Models\UserAddress;
 use App\Models\Order;
-use Carbon\Carbon;
-use App\Jobs\CloseOrder;
 use Illuminate\Http\Request;
-use App\Services\CartService;
 use App\Services\OrderService;
+use App\Exceptions\InvalidRequestException;
+use Carbon\Carbon;
 use App\Http\Requests\SendReviewRequest;
 use App\Events\OrderReviewed;
 use App\Http\Requests\ApplyRefundRequest;
+use App\Exceptions\CouponCodeUnavailableException;
+use App\Models\CouponCode;
 
 class OrdersController extends Controller
 {
+    public function store(OrderRequest $request, OrderService $orderService)
+    {
+        $user    = $request->user();
+        $address = UserAddress::find($request->input('address_id'));
+        $coupon  = null;
+
+        // 如果用户提交了优惠码
+        if ($code = $request->input('coupon_code')) {
+            $coupon = CouponCode::where('code', $code)->first();
+            if (!$coupon) {
+                throw new CouponCodeUnavailableException('优惠券不存在');
+            }
+        }
+        // 参数中加入 $coupon 变量
+        return $orderService->store($user, $address, $request->input('remark'), $request->input('items'), $coupon);
+    }
+
     public function index(Request $request)
     {
         $orders = Order::query()
@@ -29,19 +45,13 @@ class OrdersController extends Controller
 
         return view('orders.index', ['orders' => $orders]);
     }
+
     public function show(Order $order, Request $request)
     {
         $this->authorize('own', $order);
         return view('orders.show', ['order' => $order->load(['items.productSku', 'items.product'])]);
     }
 
-    public function store(OrderRequest $request, OrderService $orderService)
-    {
-        $user    = $request->user();
-        $address = UserAddress::find($request->input('address_id'));
-
-        return $orderService->store($user, $address, $request->input('remark'), $request->input('items'));
-    }
     public function received(Order $order, Request $request)
     {
         // 校验权限
@@ -58,6 +68,7 @@ class OrdersController extends Controller
         // 返回订单信息
         return $order;
     }
+
     public function review(Order $order)
     {
         // 校验权限
@@ -98,8 +109,10 @@ class OrdersController extends Controller
             $order->update(['reviewed' => true]);
         });
         event(new OrderReviewed($order));
+
         return redirect()->back();
     }
+
     public function applyRefund(Order $order, ApplyRefundRequest $request)
     {
         // 校验订单是否属于当前用户

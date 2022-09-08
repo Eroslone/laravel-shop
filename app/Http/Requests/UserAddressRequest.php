@@ -16,6 +16,7 @@ class UserAddressRequest extends Request
             'contact_phone' => 'required',
         ];
     }
+
     public function attributes()
     {
         return [
