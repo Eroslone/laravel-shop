@@ -1,65 +1,65 @@
-@import "~@fortawesome/fontawesome-free/css/all.css";
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-.products-index-page,.products-favorites-page {
-  .pagination {
-    margin-right: 5px;
-  }
-  // 替换原有的 .search-form
-  .search-form {
-    padding: 0 5px 10px;
-    .category-breadcrumb {
-      line-height: 28px;
-    }
-    .all-products {
-      font-size: 12px;
-      color: #666;
-      text-decoration: none;
-    }
-    .category {
-      font-size: 12px;
-      height: 22px;
-      border: 1px solid #eee;
-      padding: 4px;
-      color: #666;
-      a {
-        text-decoration: none;
-        color: #666;
-      }
-    }
-  }
-  .filters {
-    font-size: 12px;
-    margin-bottom: 10px;
-    &>.row {
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-      margin: 0 -20px;
-      .filter-key {
-        width: 150px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        background: #f3f3f3;
-        color: #666;
-      }
-      .filter-values {
-        padding-top: 5px;
-        padding-bottom: 5px;
-        a {
-          margin-right: 50px;
-          color: #666;
-          text-decoration: none;
-        }
-      }
-    }
-  }
 
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
+/* universal */
+
+body {
+  font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* header */
+
+.navbar-static-top {
+  border-color: #e7e7e7;
+  background-color: #fff;
+  box-shadow: 0px 1px 11px 2px rgba(42, 42, 42, 0.1);
+  border-top: 4px solid #00b5ad;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 40px;
+  margin-top: 0px;
+}
+
+/* Sticky footer styles */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #000;
+
+  .container {
+    padding-right: 15px;
+    padding-left: 15px;
+
+    p {
+      margin: 19px 0;
+      color: #c1c1c1;
+
+      a {
+        color: inherit;
+      }
+    }
+  }
+}
+
+@mixin product-list {
   .products-list {
     padding: 0 15px;
     .product-item {
@@ -118,34 +118,79 @@
     }
   }
 }
-.products-show-page {
-  .crowdfunding-info {
-    margin-bottom: 20px;
-    font-size: 14px;
-    .have-text {
-      font-size: 16px;
+
+.products-index-page, .products-favorites-page {
+  .pagination {
+    margin-right: 5px;
+  }
+  // scss 的 @include 用于引用一段样式
+  @include product-list;
+
+  .search-form {
+    padding: 0 5px 10px;
+    .category-breadcrumb {
+      line-height: 28px;
     }
-    .total-amount {
-      .symbol {
-        font-size: 20px;
+    .all-products {
+      font-size: 12px;
+      color: #666;
+      text-decoration: none;
+    }
+    .category {
+      font-size: 12px;
+      height: 22px;
+      border: 1px solid #eee;
+      padding: 4px;
+      color: #666;
+      a {
+        text-decoration: none;
+        color: #666;
       }
-      font-size: 32px;
     }
-    .progress {
-      height: 10px;
-      margin-bottom: 5px;
-    }
-    .progress-info {
-      font-weight: 600;
-      margin: 10px 0;
-    }
-    .current-progress {
-      color: rgb(161, 6, 224);
-    }
-    .text-red {
-      color: red;
+    .filter {
+      border: 1px red solid;
+      font-size: 12px;
+      padding: 2px 0 2px 2px;
+      .filter-value {
+        color: red;
+      }
+      .remove-filter {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        background: red;
+        padding: 2px;
+      }
     }
   }
+  .filters {
+    font-size: 12px;
+    margin-bottom: 10px;
+    &>.row {
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      margin: 0 -20px;
+      .filter-key {
+        width: 150px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background: #f3f3f3;
+        color: #666;
+      }
+      .filter-values {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        a {
+          margin-right: 50px;
+          color: #666;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.products-show-page {
   .cover {
     width: 100%;
     border: solid 1px #eee;
@@ -263,6 +308,69 @@
       padding: 20px;
     }
   }
+
+  .crowdfunding-info {
+    margin-bottom: 20px;
+    font-size: 14px;
+    .have-text {
+      font-size: 16px;
+    }
+    .total-amount {
+      .symbol {
+        font-size: 20px;
+      }
+      font-size: 32px;
+    }
+    .progress {
+      height: 10px;
+      margin-bottom: 5px;
+    }
+    .progress-info {
+      font-weight: 600;
+      margin: 10px 0;
+    }
+    .current-progress {
+      color: rgb(161, 6, 224);
+    }
+    .text-red {
+      color: red;
+    }
+  }
+
+  .properties-list {
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 20px;
+    .properties-list-title {
+      padding: 5px 0;
+      color: #999;
+      font-weight: 700;
+    }
+    .properties-list-body {
+      font-size: 12px;
+      padding: 5px 0;
+      list-style: none;
+      text-indent: 0;
+      li {
+        display: inline-block;
+        width: 30%;
+        overflow: hidden;
+      }
+    }
+  }
+  .product-description img {
+    max-width: 100%;
+  }
+
+
+  .similar-products {
+    @include product-list;
+    .title {
+      font-weight: normal;
+    }
+    .price {
+      background-color: unset;
+    }
+  }
 }
 
 .cart-index-page {
@@ -310,6 +418,7 @@
     }
   }
 }
+
 .orders-index-page {
   .list-group-item {
     font-size: 12px;
@@ -354,18 +463,12 @@
     }
   }
 }
+
+
 .orders-show-page {
   font-size: 12px;
   .vertical-middle {
     vertical-align: middle;
-  }
-  .payment-buttons, .receive-button, .refund-button {
-    margin-top: 10px;
-    padding-right: 10px;
-  }
-  .payment-buttons {
-    margin-top: 10px;
-    padding-right: 10px;
   }
   .product-info {
     display: flex;
@@ -427,11 +530,24 @@
       padding-right: 20px;
     }
   }
+
+  .payment-buttons {
+    margin-top: 10px;
+    padding-right: 10px;
+  }
+
   .payment-buttons, .receive-button {
     margin-top: 10px;
     padding-right: 10px;
   }
+
+  .payment-buttons, .receive-button, .refund-button {
+    margin-top: 10px;
+    padding-right: 10px;
+  }
 }
+
+
 .orders-review-show-page {
   .vertical-middle {
     vertical-align: middle;
@@ -512,6 +628,7 @@
     border-radius: 0px;
   }
 }
+
 .dropdown-submenu {
   position: relative;
 }
@@ -537,5 +654,64 @@
   }
   .dropdown-menu .dropdown-submenu {
     width: auto;
+  }
+}
+
+.installments-show-page {
+  font-size: 12px;
+  .table {
+    margin-bottom: 0;
+    .repaid {
+      color: green;
+    }
+    .overdue {
+      color: red;
+    }
+  }
+  .item-amount {
+    padding-right: 20px;
+    width: 200px;
+  }
+  .installment-top {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+  }
+  .installment-info {
+    width: 50%;
+    .line {
+      display: flex;
+      flex-direction: row;
+      .line-label {
+        width: 80px;
+        text-align: right;
+      }
+      .line-value {
+        padding-left: 20px;
+        flex-shrink: 100;
+      }
+    }
+    border-right: 1px solid #ddd;
+  }
+  .installment-next {
+    width: 50%;
+    font-family: Verdana,Tahoma,Helvetica,Arial;
+    .installment-clear {
+      font-weight: bolder;
+      font-size: 16px;
+    }
+    .total-amount {
+      font-weight: bolder;
+      font-size: 14px;
+    }
+    .value {
+      display: inline-block;
+      width: 150px;
+      padding-right: 20px;
+    }
+  }
+  .payment-buttons {
+    margin-top: 10px;
+    padding-right: 10px;
   }
 }
