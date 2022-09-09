@@ -19,7 +19,13 @@ class Order extends Model
     const SHIP_STATUS_PENDING = 'pending';
     const SHIP_STATUS_DELIVERED = 'delivered';
     const SHIP_STATUS_RECEIVED = 'received';
+    const TYPE_NORMAL = 'normal';
+    const TYPE_CROWDFUNDING = 'crowdfunding';
 
+    public static $typeMap = [
+        self::TYPE_NORMAL => '普通商品订单',
+        self::TYPE_CROWDFUNDING => '众筹商品订单',
+    ];
     public static $refundStatusMap = [
         self::REFUND_STATUS_PENDING    => '未退款',
         self::REFUND_STATUS_APPLIED    => '已申请退款',
@@ -37,6 +43,7 @@ class Order extends Model
     protected $fillable = [
         'no',
         'address',
+        'type',
         'total_amount',
         'remark',
         'paid_at',
