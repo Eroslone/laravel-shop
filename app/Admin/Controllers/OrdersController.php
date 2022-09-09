@@ -12,6 +12,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Requests\Admin\HandleRefundRequest;
 use App\Exceptions\InternalException;
 use App\Models\CrowdfundingProduct;
+use App\Services\OrderService;
 
 
 class OrdersController extends AdminController
@@ -94,7 +95,7 @@ class OrdersController extends AdminController
         // 返回上一页
         return redirect()->back();
     }
-    public function handleRefund(Order $order, HandleRefundRequest $request)
+    public function handleRefund(Order $order, HandleRefundRequest $request, OrderService $orderService)
     {
         // 判断订单状态是否正确
         if ($order->refund_status !== Order::REFUND_STATUS_APPLIED) {
@@ -109,6 +110,8 @@ class OrdersController extends AdminController
             ]);
             // 调用退款逻辑
             $this->_refundOrder($order);
+            // 改为调用封装的方法
+            $orderService->refundOrder($order);
         } else {
             // 将拒绝退款理由放到订单的 extra 字段中
             $extra = $order->extra ?: [];
@@ -122,7 +125,7 @@ class OrdersController extends AdminController
 
         return $order;
     }
-    protected function _refundOrder(Order $order)
+    /*protected function _refundOrder(Order $order)
     {
         // 判断该订单的支付方式
         switch ($order->payment_method) {
@@ -163,5 +166,5 @@ class OrdersController extends AdminController
                 throw new InternalException('未知订单支付方式：'.$order->payment_method);
                 break;
         }
-    }
+    }*/
 }
