@@ -36,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('wechat_pay', function () {
             $config = config('pay.wechat');
+            $config['notify_url'] = ngrok_url('payment.alipaynotify');
+            $config['return_url'] = route('payment.alipayreturn');
             if (app()->environment() !== 'production') {
                 $config['log']['level'] = Logger::DEBUG;
             } else {

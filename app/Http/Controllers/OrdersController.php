@@ -16,8 +16,18 @@ use App\Exceptions\CouponCodeUnavailableException;
 use App\Models\CouponCode;
 use App\Http\Requests\CrowdFundingOrderRequest;
 use App\Models\ProductSku;
+use App\Http\Requests\SeckillOrderRequest;
+
 class OrdersController extends Controller
 {
+    public function seckill(SeckillOrderRequest $request, OrderService $orderService)
+    {
+        $user = $request->user();
+        $sku  = ProductSku::find($request->input('sku_id'));
+
+        return $orderService->seckill($user, $request->input('address'), $sku);
+    }
+
     public function store(OrderRequest $request, OrderService $orderService)
     {
         $user    = $request->user();
@@ -141,6 +151,7 @@ class OrdersController extends Controller
 
         return $order;
     }
+
     // 创建一个新的方法用于接受众筹商品下单请求
     public function crowdfunding(CrowdFundingOrderRequest $request, OrderService $orderService)
     {
