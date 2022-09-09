@@ -42,7 +42,6 @@ class PaymentController extends Controller
         $alipay = Pay::alipay($config);
         try{
             $data = $alipay->callback(); // 是的，验签就这么简单！
-
             // $data->out_trade_no 拿到订单流水号，并在数据库中查询
             $order = Order::where('no', $data->out_trade_no)->first();
             // 正常来说不太可能出现支付了一笔不存在的订单，这个判断只是加强系统健壮性。
@@ -54,7 +53,6 @@ class PaymentController extends Controller
                 // 返回数据给支付宝
                 return app('alipay')->success();
             }
-
             $order->update([
                 'paid_at'        => Carbon::now(), // 支付时间
                 'payment_method' => 'alipay', // 支付方式

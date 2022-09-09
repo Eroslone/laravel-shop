@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
         // 往服务容器中注入一个名为 alipay 的单例对象
         $this->app->singleton('alipay', function () {
             $config = config('pay');
-            $config['notify_url'] = ngrok_url('payment.alipaynotify');
+            $config['notify_url'] = route('payment.alipaynotify');
             $config['return_url'] = route('payment.alipayreturn');
             // 判断当前项目运行环境是否为线上环境
             if (app()->environment() !== 'production') {
@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('wechat_pay', function () {
             $config = config('pay.wechat');
-            $config['notify_url'] = ngrok_url('payment.alipaynotify');
+            $config['notify_url'] = route('payment.alipaynotify');
             $config['return_url'] = route('payment.alipayreturn');
             if (app()->environment() !== 'production') {
                 $config['log']['level'] = Logger::DEBUG;
