@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use App\Models\CouponCode;
 use App\Exceptions\CouponCodeUnavailableException;
 use App\Exceptions\InternalException;
+use App\Jobs\RefundInstallmentOrder;
+use Illuminate\Support\Facades\Redis;
 
 class OrderService
 {
@@ -30,7 +32,6 @@ class OrderService
                     'zip'           => $address->zip,
                     'contact_name'  => $address->contact_name,
                     'contact_phone' => $address->contact_phone,
-
                 ],
                 'remark'       => $remark,
                 'total_amount' => 0,
@@ -86,6 +87,7 @@ class OrderService
 
         return $order;
     }
+
     // 新建一个 crowdfunding 方法用于实现众筹商品下单逻辑
     public function crowdfunding(User $user, UserAddress $address, ProductSku $sku, $amount)
     {
@@ -100,7 +102,6 @@ class OrderService
                     'zip'           => $address->zip,
                     'contact_name'  => $address->contact_name,
                     'contact_phone' => $address->contact_phone,
-
                 ],
                 'remark'       => '',
                 'total_amount' => $sku->price * $amount,
@@ -133,6 +134,7 @@ class OrderService
 
         return $order;
     }
+
     public function refundOrder(Order $order)
     {
         // 判断该订单的支付方式
@@ -174,11 +176,20 @@ class OrderService
                     ]);
                 }
                 break;
+            case 'installment':
+                $order->update([
+                    'refund_no' => Order::getAvailableRefundNo(), // 生成退款订单号
+                    'refund_status' => Order::REFUND_STATUS_PROCESSING, // 将退款状态改为退款中
+                ]);
+                // 触发退款异步任务
+                dispatch(new RefundInstallmentOrder($order));
+                break;
             default:
-                throw new InternalException('未知订单支付方式：' . $order->payment_method);
+                throw new InternalException('未知订单支付方式：'.$order->payment_method);
                 break;
         }
     }
+
     // 将原本的 UserAddress 类型改成 array 类型
     public function seckill(User $user, array $addressData, ProductSku $sku)
     {
@@ -208,6 +219,8 @@ class OrderService
             $item->product()->associate($sku->product_id);
             $item->productSku()->associate($sku);
             $item->save();
+
+            Redis::decr('seckill_sku_'.$sku->id);
 
             return $order;
         });
