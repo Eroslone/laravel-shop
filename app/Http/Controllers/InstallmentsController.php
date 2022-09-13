@@ -50,8 +50,8 @@ class InstallmentsController extends Controller
             'total_amount' => $nextItem->total,
             'subject'      => '支付 Laravel Shop 的分期订单：'.$installment->no,
             // 这里的 notify_url 和 return_url 可以覆盖掉在 AppServiceProvider 设置的回调地址
-            'notify_url'   => ngrok_url('installments.alipay.notify'),
-            'return_url'   => route('installments.alipay.return'),
+            'return_url' => env('APP_URL', '').'/installments/alipay/alipayReturn',
+            'notify_url' => env('APP_URL', '').'/installments/alipay/alipayNotify',
         ]);
     }
     // 支付宝前端回调
