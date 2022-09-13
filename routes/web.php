@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::get('installments', 'InstallmentsController@index')->name('installments.index');
     Route::get('installments/{installment}/alipay', 'InstallmentsController@payByAlipay')->name('installments.alipay');
     Route::get('installments/{installment}', 'InstallmentsController@show')->name('installments.show');
+    Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store');
+
 });
 Route::redirect('/', '/products')->name('root');
 Route::get('products', 'ProductsController@index')->name('products.index');
