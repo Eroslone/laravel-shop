@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Exceptions\InvalidRequestException;
 use App\Events\OrderPaid;
 use Carbon\Carbon;
+use Yansongda\Pay\Pay;
 
 class InstallmentsController extends Controller
 {
@@ -56,20 +57,20 @@ class InstallmentsController extends Controller
     // 支付宝前端回调
     public function alipayReturn()
     {
-        try {
-            app('alipay')->verify();
-        } catch (\Exception $e) {
-            return view('pages.error', ['msg' => '数据不正确']);
-        }
+        $config = config('installment');
 
-        return view('pages.success', ['msg' => '付款成功']);
+        $data = Pay::alipay($config)->callback(); // 是的，验签就这么简单！
+
+        return view('pages.success', ['msg' => '付款成功','订单号' => $data->out_trade_no]);
     }
 
     // 支付宝后端回调
     public function alipayNotify()
     {
+        $config = config('installment');
+        $alipay = Pay::alipay($config);
         // 校验支付宝回调参数是否正确
-        $data = app('alipay')->verify();
+        $data = $alipay->callback(); // 是的，验签就这么简单！
         // 如果订单状态不是成功或者结束，则不走后续的逻辑
         if (!in_array($data->trade_status, ['TRADE_SUCCESS', 'TRADE_FINISHED'])) {
             return app('alipay')->success();
