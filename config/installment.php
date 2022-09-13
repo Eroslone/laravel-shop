@@ -14,8 +14,8 @@ return [
             'alipay_public_cert_path' => storage_path('cert/alipayCertPublicKey_RSA2.crt'),
             // 必填-支付宝根证书 路径
             'alipay_root_cert_path' => storage_path('cert/alipayRootCert.crt'),
-            'notify_url'   => route('installments.alipay.notify'),
-            'return_url'   => route('installments.alipay.return'),
+            'notify_url'   => route('installments.alipaynotify'),
+            'return_url'   => route('installments.alipayreturn'),
             // 选填-服务商模式下的服务商 id，当 mode 为 Pay::MODE_SERVICE 时使用该参数
             'service_provider_id' => '',
             // 选填-默认为正常模式。可选为： MODE_NORMAL, MODE_SANDBOX, MODE_SERVICE
