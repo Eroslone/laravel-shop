@@ -52,11 +52,9 @@ class SeckillOrderRequest extends Request
                     if (!$user->email_verified_at) {
                         throw new InvalidRequestException('请先验证邮箱');
                     }
-                    if ($order = Order::query()
-                        .
-                        .
-                        .
-                    }
+
+
+
                 },
 ],
 ];
